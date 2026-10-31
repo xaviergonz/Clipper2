@@ -45,10 +45,11 @@ jobs:
     - uses: actions/checkout@v4
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
+    # The runner has Visual Studio 18 (v145), not the projects' v143 toolset
     - name: Build DLLs
       run: |
-        msbuild DLL/CPP_DLL/Clipper2_DLL.sln -p:Configuration=Release -p:Platform=${{ matrix.platform }} -m
-        msbuild DLL/CPP_DLL/Clipper2_Z_DLL.sln -p:Configuration=Release -p:Platform=${{ matrix.platform }} -m
+        msbuild DLL/CPP_DLL/Clipper2_DLL.sln -p:Configuration=Release -p:Platform=${{ matrix.platform }} -p:PlatformToolset=v145 -m
+        msbuild DLL/CPP_DLL/Clipper2_Z_DLL.sln -p:Configuration=Release -p:Platform=${{ matrix.platform }} -p:PlatformToolset=v145 -m
   ubuntu-latest-gcc-default:
     runs-on: 'ubuntu-latest'
     steps:
