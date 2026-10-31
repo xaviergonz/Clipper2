@@ -1,0 +1,8 @@
+# Visual Studio build outputs
+Debug/
+Release/
+x64/
+ARM64/
+Clipper2Dll/
+Clipper2ZDll/
+*.user
