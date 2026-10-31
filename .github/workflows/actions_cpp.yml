@@ -81,7 +81,8 @@ jobs:
         cd CPP/build
         env CTEST_OUTPUT_ON_FAILURE=1 make test
   ubuntu-latest-clang-17:
-    runs-on: 'ubuntu-latest'
+    # nb: apt.llvm.org doesn't publish clang 17 for newer Ubuntu releases
+    runs-on: 'ubuntu-24.04'
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
