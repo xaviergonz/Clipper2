@@ -107,7 +107,7 @@
     <IncludePath>..\..\CPP\Clipper2Lib\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>Clipper2_Z_64</TargetName>
+    <TargetName>Clipper2_Z_32</TargetName>
     <IncludePath>..\..\CPP\Clipper2Lib\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
