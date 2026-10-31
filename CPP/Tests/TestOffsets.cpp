@@ -698,3 +698,30 @@ TEST(Clipper2Tests, TestOffsets13) // see #965
   const auto area2 = std::abs(Area(solution2));
   EXPECT_EQ(area2, 122);
 }
+
+TEST(Clipper2Tests, TestOffsets14) // empty paths
+{
+  const Path64 line = {{0, 0}, {10, 0}};
+  const Paths64 empty = {{}}, empty_first = {{}, line}, empty_last = {line, {}};
+  for (EndType et : {EndType::Joined, EndType::Butt, EndType::Square, EndType::Round})
+    for (JoinType jt : {JoinType::Square, JoinType::Bevel, JoinType::Round, JoinType::Miter})
+    {
+      EXPECT_TRUE(InflatePaths(empty, 10, jt, et).empty());
+      // an empty path shouldn't change the solution
+      const Paths64 expected = InflatePaths(Paths64{line}, 10, jt, et);
+      EXPECT_EQ(InflatePaths(empty_first, 10, jt, et), expected);
+      EXPECT_EQ(InflatePaths(empty_last, 10, jt, et), expected);
+    }
+}
+
+TEST(Clipper2Tests, TestOffsets15) // 2 point paths with EndType::Joined
+{
+  // 2 point joined paths are offset as open paths, but
+  // the paths that follow them should still be joined
+  const Path64 line = {{0, 0}, {100, 0}};
+  const Path64 corner = {{0, 1000}, {500, 1000}, {500, 1500}};
+  const double expected = Area(InflatePaths(Paths64{line}, 20, JoinType::Miter, EndType::Joined)) +
+    Area(InflatePaths(Paths64{corner}, 20, JoinType::Miter, EndType::Joined));
+  EXPECT_EQ(Area(InflatePaths(Paths64{line, corner}, 20, JoinType::Miter, EndType::Joined)), expected);
+  EXPECT_EQ(Area(InflatePaths(Paths64{corner, line}, 20, JoinType::Miter, EndType::Joined)), expected);
+}

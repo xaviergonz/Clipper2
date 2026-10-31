@@ -491,6 +491,9 @@ void ClipperOffset::DoGroupOffset(Group& group)
 	{
 		Path64::size_type pathLen = path_in_it->size();
 		path_out.clear();
+		if (pathLen == 0) continue;
+		// nb: end_type_ is changed below for 2 point joined paths
+		end_type_ = group.end_type;
 
 		if (pathLen == 1) // single point
 		{
